@@ -2,11 +2,11 @@ const { default: VueRouter } = require('vue-router');
 
 require('./bootstrap');
 
+window.Vue = require('vue');
 window.VueRouter = require('vue-router').default;
 window.VueAxios = require('axios');
-window.Vue = require('vue');
 import AllRoutes from './routes.js';
-import store from './store';
+import storeVuex from './store';
 
 Vue.use(VueRouter);
 
@@ -18,7 +18,7 @@ const router = new VueRouter({
 Vue.component('mainpage', require('./components/Index.vue').default);
 
 const app = new Vue({
-    store,
+    store: storeVuex,
     router: router,
     el: '#app',
 });

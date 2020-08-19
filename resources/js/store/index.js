@@ -1,10 +1,11 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import reservation from './modules/reservation.js';
+import reservationModule from './modules/reservation/reservationAction.js';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
-        reservation
+        reservationModule,
+        
     }
 });

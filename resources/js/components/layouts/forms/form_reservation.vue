@@ -2,19 +2,23 @@
   <div>
 
          <form @submit.prevent="addReservation" method="post">
+
+            <div v-if="reservationMsg" class="alert alert-primary"> {{ reservationMsg }} </div>
+            <div v-if="errorMsg" class="alert alert-primary"> {{ errorMsg }} </div>
+
             <label for="txt_date_request_occupy">Event Date</label>
             <input type="date" v-model="reservation.txt_date_request_occupy" class="form-control mb-3">
 
             <label for="rdb_time_request_occupy">Event Time</label>
             <br />
             <label class="radio-inline mr-5">
-                <input type="radio" v-model="reservation.rdb_time_request_occupy" value="time_am" id=""> AM
+                <input type="radio" v-model="reservation.rdb_time_request_occupy" value="am" id=""> AM
             </label>
             <label class="radio-inline mr-5">
-                <input type="radio" v-model="reservation.rdb_time_request_occupy" value="time_pm" id=""> PM
+                <input type="radio" v-model="reservation.rdb_time_request_occupy" value="pm" id=""> PM
             </label>
             <label class="radio-inline mr-5">
-                <input type="radio" v-model="reservation.rdb_time_request_occupy" value="time_whole_day" id=""> Whole Day
+                <input type="radio" v-model="reservation.rdb_time_request_occupy" value="whole_day" id=""> Whole Day
             </label>
             <br />
 
@@ -74,17 +78,22 @@ export default {
                 rb_request_use_facilities: [],
                 txt_people_count: '',
                 txt_reserve_purpose: ''
-            }
+            },
+            reservation_message: ''
         }
     },
-    created() {
-
+    computed: {
+        ...mapGetters({
+            reservationMsg: 'reservationModule/getReservationMsg',
+            sampleLang: 'reservationModule/getSampleMsg',
+            errorMsg: 'reservationModule/getErrorMsg'
+        })
     },
     methods: {
-        ...mapActions(['saveReservation']),
+        ...mapActions('reservationModule', ['saveReservation']),
         addReservation() {
-            //this.$store.dispatch('saveReservation', this.reservation);
-            this.saveReservation(this.reservation);
+            this.$store.dispatch('reservationModule/saveReservation', this.reservation);
+         
         }
     }
 

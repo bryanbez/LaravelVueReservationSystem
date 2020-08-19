@@ -2008,6 +2008,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2021,14 +2025,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         rb_request_use_facilities: [],
         txt_people_count: '',
         txt_reserve_purpose: ''
-      }
+      },
+      reservation_message: ''
     };
   },
-  created: function created() {},
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['saveReservation'])), {}, {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    reservationMsg: 'reservationModule/getReservationMsg',
+    sampleLang: 'reservationModule/getSampleMsg',
+    errorMsg: 'reservationModule/getErrorMsg'
+  })),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('reservationModule', ['saveReservation'])), {}, {
     addReservation: function addReservation() {
-      //this.$store.dispatch('saveReservation', this.reservation);
-      this.saveReservation(this.reservation);
+      this.$store.dispatch('reservationModule/saveReservation', this.reservation);
     }
   })
 });
@@ -38439,6 +38447,18 @@ var render = function() {
         }
       },
       [
+        _vm.reservationMsg
+          ? _c("div", { staticClass: "alert alert-primary" }, [
+              _vm._v(" " + _vm._s(_vm.reservationMsg) + " ")
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.errorMsg
+          ? _c("div", { staticClass: "alert alert-primary" }, [
+              _vm._v(" " + _vm._s(_vm.errorMsg) + " ")
+            ])
+          : _vm._e(),
+        _vm._v(" "),
         _c("label", { attrs: { for: "txt_date_request_occupy" } }, [
           _vm._v("Event Date")
         ]),
@@ -38485,19 +38505,16 @@ var render = function() {
                 expression: "reservation.rdb_time_request_occupy"
               }
             ],
-            attrs: { type: "radio", value: "time_am", id: "" },
+            attrs: { type: "radio", value: "am", id: "" },
             domProps: {
-              checked: _vm._q(
-                _vm.reservation.rdb_time_request_occupy,
-                "time_am"
-              )
+              checked: _vm._q(_vm.reservation.rdb_time_request_occupy, "am")
             },
             on: {
               change: function($event) {
                 return _vm.$set(
                   _vm.reservation,
                   "rdb_time_request_occupy",
-                  "time_am"
+                  "am"
                 )
               }
             }
@@ -38515,19 +38532,16 @@ var render = function() {
                 expression: "reservation.rdb_time_request_occupy"
               }
             ],
-            attrs: { type: "radio", value: "time_pm", id: "" },
+            attrs: { type: "radio", value: "pm", id: "" },
             domProps: {
-              checked: _vm._q(
-                _vm.reservation.rdb_time_request_occupy,
-                "time_pm"
-              )
+              checked: _vm._q(_vm.reservation.rdb_time_request_occupy, "pm")
             },
             on: {
               change: function($event) {
                 return _vm.$set(
                   _vm.reservation,
                   "rdb_time_request_occupy",
-                  "time_pm"
+                  "pm"
                 )
               }
             }
@@ -38545,11 +38559,11 @@ var render = function() {
                 expression: "reservation.rdb_time_request_occupy"
               }
             ],
-            attrs: { type: "radio", value: "time_whole_day", id: "" },
+            attrs: { type: "radio", value: "whole_day", id: "" },
             domProps: {
               checked: _vm._q(
                 _vm.reservation.rdb_time_request_occupy,
-                "time_whole_day"
+                "whole_day"
               )
             },
             on: {
@@ -38557,7 +38571,7 @@ var render = function() {
                 return _vm.$set(
                   _vm.reservation,
                   "rdb_time_request_occupy",
-                  "time_whole_day"
+                  "whole_day"
                 )
               }
             }
@@ -55456,9 +55470,9 @@ var _require = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 window.VueRouter = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js")["default"];
 window.VueAxios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 
 
 Vue.use(VueRouter);
@@ -55759,23 +55773,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _modules_reservation_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/reservation.js */ "./resources/js/store/modules/reservation.js");
+/* harmony import */ var _modules_reservation_reservationAction_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/reservation/reservationAction.js */ "./resources/js/store/modules/reservation/reservationAction.js");
 
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
   modules: {
-    reservation: _modules_reservation_js__WEBPACK_IMPORTED_MODULE_2__["default"]
+    reservationModule: _modules_reservation_reservationAction_js__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 }));
 
 /***/ }),
 
-/***/ "./resources/js/store/modules/reservation.js":
-/*!***************************************************!*\
-  !*** ./resources/js/store/modules/reservation.js ***!
-  \***************************************************/
+/***/ "./resources/js/store/modules/reservation/reservationAction.js":
+/*!*********************************************************************!*\
+  !*** ./resources/js/store/modules/reservation/reservationAction.js ***!
+  \*********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -55794,26 +55808,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var state = {
   reservations: [],
-  reservation_msg: ''
+  reservation_msg: '',
+  error_msg: '',
+  sampleMsg: 'GUmagana BA?'
 };
-var getters = {};
+var getters = {
+  getReservationMsg: function getReservationMsg(state) {
+    return state.reservation_msg;
+  },
+  getSampleMsg: function getSampleMsg(state) {
+    return state.sampleMsg;
+  },
+  getErrorMsg: function getErrorMsg(state) {
+    return state.error_msg;
+  }
+};
+var mutations = {
+  RESERVATION_MSG_SAVE: function RESERVATION_MSG_SAVE(state, response) {
+    return state.reservation_msg = response;
+  },
+  SET_RESERVATION_ERROR_MSG: function SET_RESERVATION_ERROR_MSG(state, response) {
+    return state.error_msg = response;
+  }
+};
 var actions = {
   saveReservation: function saveReservation(_ref, reservation) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var commit, response;
+      var commit;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit;
-              _context.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('http://127.0.0.1:8000/api/reservation', reservation);
+              axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('http://127.0.0.1:8000/api/reservation', reservation).then(function (response) {
+                commit('RESERVATION_MSG_SAVE', response.data);
+              })["catch"](function (error) {
+                commit('SET_RESERVATION_ERROR_MSG', error.response.data.errors);
+              });
 
-            case 3:
-              response = _context.sent;
-              commit('RESERVATION_MSG_SAVE', response);
-
-            case 5:
+            case 2:
             case "end":
               return _context.stop();
           }
@@ -55822,12 +55855,13 @@ var actions = {
     }))();
   }
 };
-var mutations = {
-  RESERVATION_MSG_SAVE: function RESERVATION_MSG_SAVE(state, response) {
-    return state.reservation_msg = response;
-  }
-};
-/* harmony default export */ __webpack_exports__["default"] = ([state, getters, actions, mutations]);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
 
 /***/ }),
 
