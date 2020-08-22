@@ -12,6 +12,12 @@ class ReservationModel extends Model
     public $table = 'tbl_reservation';
     protected $guarded = [];
 
+    public function getAllReservation() {
+
+        $reservations = ReservationModel::paginate(1);
+        return response()->json($reservations);
+    }
+
     public function store($request) {
 
         $addReservation = new ReservationModel;
@@ -29,6 +35,11 @@ class ReservationModel extends Model
 
        return response()->json('Reservation Created Successfully');
 
+    }
+
+    public function getReservationByRequestFormNo($request_form_no) {
+        $reservation = ReservationModel::where('request_form_no', $request_form_no)->get();
+        return response()->json($reservation);
     }
 
     public function getAllRequestFormNo() : array {

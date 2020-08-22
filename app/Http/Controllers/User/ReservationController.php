@@ -5,13 +5,15 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User\ReservationModel;
+use App\Http\Requests\ReservationInputRequest;
 
 class ReservationController extends Controller
 {
   
     public function index()
     {
-        //
+        $allReservations = new ReservationModel();
+        return $allReservations->getAllReservation();
     }
 
     public function create()
@@ -19,16 +21,20 @@ class ReservationController extends Controller
         
     }
 
-    public function store(Request $request)
+    public function store(ReservationInputRequest $request)
     {
+        
+        $validateRequest = $request->validated();
+
         $insertReservation = new ReservationModel();
         return $insertReservation->store($request);
 
     }
 
-    public function show($id)
+    public function show($request_form_no)
     {
-        //
+        $reservationByRequestFormNo = new ReservationModel();
+        return $reservationByRequestFormNo->getReservationByRequestFormNo($request_form_no);
     }
 
     public function edit($id)

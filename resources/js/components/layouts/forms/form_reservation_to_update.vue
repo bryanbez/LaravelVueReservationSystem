@@ -103,18 +103,30 @@ export default {
             reservation_message: ''
         }
     },
+    created() {
+        this.setInputValueInEditReservation();
+    //    this.reservation.txt_requested_group = this.getSpecificReservation.requested_group
+  
+    },
     computed: {
         ...mapGetters({
             reservationMsg: 'reservationModule/getReservationMsg',
-            errorMsg: 'reservationModule/getErrorMsg'
-        })
+            errorMsg: 'reservationModule/getErrorMsg',
+            getSpecificReservation: 'reservationModule/getSpecificReservation',
+        }),
+        
     },
     methods: {
-        ...mapActions('reservationModule', ['saveReservation']),
-        addReservation() {
-            this.$store.dispatch('reservationModule/saveReservation', this.reservation);
-         
+        ...mapActions('reservationModule', ['fetchSpecificReservation']),
+        setInputValueInEditReservation() {
+            console.log(this.getSpecificReservation);
+            this.reservation = this.getSpecificReservation
+        },
+        updateReservation() {
+            //this.$store.dispatch('reservationModule/saveReservation', this.reservation);   
         }
+
+
     },
     filters: {
         trimCharacters: function(value) {

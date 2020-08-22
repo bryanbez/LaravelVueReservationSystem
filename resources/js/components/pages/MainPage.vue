@@ -1,15 +1,16 @@
 <template>
   <div>
       <h3> Main Pages </h3>
-      <formReservation></formReservation>
+      <reservationTable></reservationTable>
   </div>
 </template>
 
 <script>
-import formReservation from '../layouts/forms/form_reservation';
+//import formReservation from '../layouts/forms/form_reservation';
+import reservationTable from '../layouts/tables/reservationsList';
 export default {
   components: {
-    formReservation,
+    reservationTable,
   }
 }
 </script>
