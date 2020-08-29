@@ -2033,11 +2033,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       reservation: {
+        request_form_no: '',
         txt_date_request_occupy: '',
         rdb_time_request_occupy: '',
         txt_requested_group: '',
@@ -2063,7 +2066,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       console.log(this.getSpecificReservation);
       this.reservation = this.getSpecificReservation;
     },
-    updateReservation: function updateReservation() {//this.$store.dispatch('reservationModule/saveReservation', this.reservation);   
+    updateReservation: function updateReservation() {
+      this.$store.dispatch('reservationModule/updateReservation', this.reservation);
     }
   }),
   filters: {
@@ -2143,11 +2147,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
+ //import reservationForm from '../forms/form_reservation';
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    reservationFormToUpdate: _forms_form_reservation_to_update__WEBPACK_IMPORTED_MODULE_1__["default"]
+    reservationFormToUpdate: _forms_form_reservation_to_update__WEBPACK_IMPORTED_MODULE_1__["default"] // reservationForm
+
   },
   data: function data() {
     return {
@@ -2170,6 +2177,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     editReservation: function editReservation(request_form_no) {
       this.fetchSpecificReservation(request_form_no);
       this.is_edit = true;
+    },
+    refreshReservations: function refreshReservations() {
+      this.allReservation();
     }
   }),
   filters: {
@@ -39281,7 +39291,7 @@ var render = function() {
         on: {
           submit: function($event) {
             $event.preventDefault()
-            return _vm.addReservation($event)
+            return _vm.updateReservation($event)
           }
         }
       },
@@ -39291,6 +39301,28 @@ var render = function() {
               _vm._v(" " + _vm._s(_vm.reservationMsg) + " ")
             ])
           : _vm._e(),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.reservation.request_form_no,
+              expression: "reservation.request_form_no"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "hidden" },
+          domProps: { value: _vm.reservation.request_form_no },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.reservation, "request_form_no", $event.target.value)
+            }
+          }
+        }),
         _vm._v(" "),
         _c("div", { staticClass: "col-md-12 col-lg-12 mb-2" }, [
           _c("label", { attrs: { for: "txt_date_request_occupy" } }, [
@@ -39894,8 +39926,8 @@ var render = function() {
           staticClass: "btn btn-primary mb-5",
           attrs: {
             type: "submit",
-            name: "addreservationdata",
-            value: "Add Reservation"
+            name: "updateReservation",
+            value: "Update Reservation"
           }
         })
       ]
@@ -40048,7 +40080,29 @@ var render = function() {
               { staticClass: "modal-dialog", attrs: { role: "document" } },
               [
                 _c("div", { staticClass: "modal-content" }, [
-                  _vm._m(2),
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c("h5", { staticClass: "modal-title" }, [
+                      _vm._v("Update Reservation")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: {
+                          type: "button",
+                          "data-dismiss": "modal",
+                          "aria-label": "Close"
+                        },
+                        on: { click: _vm.refreshReservations }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    )
+                  ]),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -40057,7 +40111,7 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _vm._m(3)
+                  _vm._m(2)
                 ])
               ]
             )
@@ -40095,34 +40149,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "modal-title" }, [_vm._v("Update Reservation")]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "button" } },
-        [_vm._v("Save changes")]
-      ),
-      _vm._v(" "),
       _c(
         "button",
         {
@@ -57120,6 +57147,7 @@ var state = {
   error_msg: '',
   pagination: {},
   reservation_to_modify: {
+    request_form_no: '',
     txt_date_request_occupy: '',
     rdb_time_request_occupy: '',
     txt_requested_group: '',
@@ -57148,7 +57176,7 @@ var getters = {
   }
 };
 var mutations = {
-  RESERVATION_MSG_SAVE: function RESERVATION_MSG_SAVE(state, response) {
+  RESERVATION_MSG: function RESERVATION_MSG(state, response) {
     return state.reservation_msg = response;
   },
   SET_ERROR_MSG: function SET_ERROR_MSG(state, response) {
@@ -57157,17 +57185,17 @@ var mutations = {
   ALL_RESERVATION: function ALL_RESERVATION(state, response) {
     state.reservations = response.data;
     var paginationInfo = {
-      next_page_url: response.next_page_url,
-      prev_page_url: response.prev_page_url,
-      first_page_url: response.first_page_url,
-      last_page_url: response.last_page,
-      current: response.from,
-      last_page: response.last_page
+      next_page_url: response.links.next,
+      prev_page_url: response.links.prev,
+      first_page_url: response.links.first,
+      last_page_url: response.links.last,
+      current: response.meta.current_page,
+      last_page: response.meta.last_page
     };
     state.pagination = paginationInfo;
   },
   SPECIFIC_RESERVATION: function SPECIFIC_RESERVATION(state, response) {
-    state.reservation_to_modify.txt_date_request_occupy = response.date_request_occupy, state.reservation_to_modify.rdb_time_request_occupy = response.time_request_occupy, state.reservation_to_modify.rb_request_use_facilities = response.request_use_facilities, state.reservation_to_modify.txt_requested_group = response.requested_group, state.reservation_to_modify.txt_requested_group_contact = response.requested_group_contact, state.reservation_to_modify.txt_requested_group_email = response.requested_group_email, state.reservation_to_modify.txt_people_count = response.people_count, state.reservation_to_modify.txt_reserve_purpose = response.reserve_purpose;
+    state.reservation_to_modify.request_form_no = response.request_form_no, state.reservation_to_modify.txt_date_request_occupy = response.date_request_occupy, state.reservation_to_modify.rdb_time_request_occupy = response.time_request_occupy, state.reservation_to_modify.rb_request_use_facilities = response.request_use_facilities, state.reservation_to_modify.txt_requested_group = response.requested_group, state.reservation_to_modify.txt_requested_group_contact = response.requested_group_contact, state.reservation_to_modify.txt_requested_group_email = response.requested_group_email, state.reservation_to_modify.txt_people_count = response.people_count, state.reservation_to_modify.txt_reserve_purpose = response.reserve_purpose;
   }
 };
 var actions = {
@@ -57180,7 +57208,7 @@ var actions = {
             case 0:
               commit = _ref.commit;
               axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('http://127.0.0.1:8000/api/reservation', reservation).then(function (response) {
-                commit('RESERVATION_MSG_SAVE', response.data);
+                commit('RESERVATION_MSG', response.data);
               })["catch"](function (error) {
                 commit('SET_ERROR_MSG', error.response.data.errors);
               });
@@ -57195,7 +57223,7 @@ var actions = {
   },
   allReservation: function allReservation(_ref2, page_url) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-      var commit, response, _response;
+      var commit, _response, _response2;
 
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
         while (1) {
@@ -57212,8 +57240,8 @@ var actions = {
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('http://127.0.0.1:8000/api/reservation');
 
             case 4:
-              response = _context2.sent;
-              commit('ALL_RESERVATION', response.data);
+              _response = _context2.sent;
+              commit('ALL_RESERVATION', _response.data);
               _context2.next = 12;
               break;
 
@@ -57222,8 +57250,8 @@ var actions = {
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(page_url);
 
             case 10:
-              _response = _context2.sent;
-              commit('ALL_RESERVATION', _response.data);
+              _response2 = _context2.sent;
+              commit('ALL_RESERVATION', _response2.data);
 
             case 12:
             case "end":
@@ -57246,7 +57274,7 @@ var actions = {
 
             case 3:
               response = _context3.sent;
-              commit('SPECIFIC_RESERVATION', response.data[0]);
+              commit('SPECIFIC_RESERVATION', response.data.data);
 
             case 5:
             case "end":
@@ -57254,6 +57282,28 @@ var actions = {
           }
         }
       }, _callee3);
+    }))();
+  },
+  updateReservation: function updateReservation(_ref4, reservation) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              commit = _ref4.commit;
+              axios__WEBPACK_IMPORTED_MODULE_1___default.a.put("http://127.0.0.1:8000/api/reservation/".concat(reservation.request_form_no), reservation).then(function (response) {
+                commit('RESERVATION_MSG', response.data);
+              })["catch"](function (error) {
+                commit('SET_ERROR_MSG', response);
+              });
+
+            case 2:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
     }))();
   }
 };

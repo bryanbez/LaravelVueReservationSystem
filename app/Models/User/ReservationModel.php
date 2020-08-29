@@ -5,6 +5,7 @@ namespace App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers\Serialize;
 use App\Helpers\GenerateReservationNo;
+use App\Http\Resources\ReservationResource;
 
 class ReservationModel extends Model
 {
@@ -14,8 +15,8 @@ class ReservationModel extends Model
 
     public function getAllReservation() {
 
-        $reservations = ReservationModel::paginate(1);
-        return response()->json($reservations);
+        $reservations = ReservationModel::paginate(10);
+        return ReservationResource::collection($reservations);
     }
 
     public function store($request) {
@@ -38,8 +39,8 @@ class ReservationModel extends Model
     }
 
     public function getReservationByRequestFormNo($request_form_no) {
-        $reservation = ReservationModel::where('request_form_no', $request_form_no)->get();
-        return response()->json($reservation);
+        $reservation = ReservationModel::where('request_form_no', $request_form_no)->first();
+        return new ReservationResource($reservation);
     }
 
     public function getAllRequestFormNo() : array {
@@ -53,5 +54,30 @@ class ReservationModel extends Model
         }
 
         return $allRequestFormNo;
+    }
+
+    public function updateReservation($request) {
+
+        try {
+
+            $updateReservation = new ReservationModel();
+            $updateReservation::where('request_form_no', $request->request_form_no)->update([
+                'date_request_occupy' => $request->txt_date_request_occupy,
+                'time_request_occupy' => $request->rdb_time_request_occupy,
+                'request_use_facilities' =>  Serialize::toSerialized($request->rb_request_use_facilities),
+                'requested_group' => $request->txt_requested_group,
+                'requested_group_contact' => $request->txt_requested_group_contact,
+                'requested_group_email' => $request->txt_requested_group_email,
+                'people_count' => $request->txt_people_count,
+                'reserve_purpose' => $request->txt_reserve_purpose
+            ]);
+
+            return response()->json('Request Form No: '. $request->request_form_no. ' updated successfully');
+    
+        }
+        catch(Exception $e) {
+            return response()->json('Error updating request form no: '. $request->request_form_no);
+        }
+
     }
 }

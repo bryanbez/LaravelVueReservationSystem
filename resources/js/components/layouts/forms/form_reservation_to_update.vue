@@ -1,9 +1,11 @@
 <template>
   <div>
 
-         <form @submit.prevent="addReservation" method="post">
+         <form @submit.prevent="updateReservation" method="post">
 
             <div v-if="reservationMsg" class="alert alert-primary"> {{ reservationMsg }} </div>
+
+            <input type="hidden" v-model="reservation.request_form_no" class="form-control">
 
             <div class="col-md-12 col-lg-12 mb-2">
                 <label for="txt_date_request_occupy">Event Date</label>
@@ -80,7 +82,7 @@
                 <span v-if="errorMsg.txt_reserve_purpose" class="error"> {{ errorMsg.txt_reserve_purpose | trimCharacters }} </span>
             </div>
            
-            <input type="submit" name="addreservationdata" class="btn btn-primary mb-5" value="Add Reservation">
+            <input type="submit" name="updateReservation" class="btn btn-primary mb-5" value="Update Reservation">
         </form>
   </div>
 </template>
@@ -91,6 +93,7 @@ export default {
     data() {
         return {
             reservation: {
+                request_form_no: '',
                 txt_date_request_occupy: '',
                 rdb_time_request_occupy: '',
                 txt_requested_group: '',
@@ -123,7 +126,8 @@ export default {
             this.reservation = this.getSpecificReservation
         },
         updateReservation() {
-            //this.$store.dispatch('reservationModule/saveReservation', this.reservation);   
+            this.$store.dispatch('reservationModule/updateReservation', this.reservation);  
+            
         }
 
 

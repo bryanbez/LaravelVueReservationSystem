@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User\ReservationModel;
 use App\Http\Requests\ReservationInputRequest;
 
+
 class ReservationController extends Controller
 {
   
@@ -42,9 +43,11 @@ class ReservationController extends Controller
         //
     }
 
-    public function update(Request $request, $id)
+    public function update(ReservationInputRequest $request)
     {
-        //
+        $validateRequest = $request->validated();
+        $updateReservation = new ReservationModel();
+        return $updateReservation->updateReservation($request);
     }
 
     public function destroy($id)

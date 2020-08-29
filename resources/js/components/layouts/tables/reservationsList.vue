@@ -31,7 +31,7 @@
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">Update Reservation</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" @click="refreshReservations" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -39,12 +39,13 @@
             <reservationFormToUpdate></reservationFormToUpdate>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Save changes</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
         </div>
     </div>
     </div>
+
+    <!-- <reservationForm></reservationForm> -->
 
   </div>
 </template>
@@ -52,9 +53,11 @@
 <script>
 import  {mapGetters, mapActions} from 'vuex';
 import reservationFormToUpdate from '../forms/form_reservation_to_update';
+//import reservationForm from '../forms/form_reservation';
 export default {
     components: {
-        reservationFormToUpdate
+        reservationFormToUpdate,
+        // reservationForm
     },
     data() {
         return {
@@ -81,6 +84,9 @@ export default {
            this.fetchSpecificReservation(request_form_no);   
            this.is_edit = true;  
        
+        },
+        refreshReservations() {
+             this.allReservation();
         }
     },
     filters: {
