@@ -15,7 +15,7 @@ class ReservationModel extends Model
 
     public function getAllReservation() {
 
-        $reservations = ReservationModel::paginate(10);
+        $reservations = ReservationModel::paginate(5);
         return ReservationResource::collection($reservations);
     }
 
@@ -80,4 +80,17 @@ class ReservationModel extends Model
         }
 
     }
+
+    public function getDateAndSchedule() {
+
+        $allDate = ReservationModel::get(['date_request_occupy', 'time_request_occupy', 'reserve_status']);
+        return response()->json($allDate);
+    }
+
+    public function getAllEvents() {
+        $getEvents = ReservationModel::where('reserve_status', 'Pending')->get(['date_request_occupy', 'time_request_occupy', 'reserve_purpose']);
+        return response()->json($getEvents);
+    }
+
+
 }
