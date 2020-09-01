@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container">
+
+
+
     <mainpage></mainpage>
 </div>
 <!-- <div class="container">

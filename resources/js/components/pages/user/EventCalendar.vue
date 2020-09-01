@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import eventcalendar from '../layouts/calendar/event_calendar'
+import eventcalendar from '../../layouts/calendar/event_calendar'
 export default {
     components: {
         eventcalendar
