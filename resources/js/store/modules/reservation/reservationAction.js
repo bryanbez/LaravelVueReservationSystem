@@ -15,8 +15,12 @@ const state = {
         txt_requested_group_email: '',
         rb_request_use_facilities: [],
         txt_people_count: '',
-        txt_reserve_purpose: ''
+       
     },
+    reservation_status: {
+        request_form_no: '',
+        slt_reserve_status: ''
+    }
 };
 
 const getters = {
@@ -24,7 +28,8 @@ const getters = {
     getAllReservation: (state) => state.reservations,
     getErrorMsg: (state) => state.error_msg,
     getPagination: (state) => state.pagination,
-    getSpecificReservation: (state) => state.reservation_to_modify
+    getSpecificReservation: (state) => state.reservation_to_modify,
+    getReservationStatus: (state) => state.reservation_status,
     
 };
 
@@ -54,6 +59,14 @@ const mutations = {
         state.reservation_to_modify.txt_people_count = response.people_count,
         state.reservation_to_modify.txt_reserve_purpose = response.reserve_purpose
 
+    },
+    CLEAR_SUCCESS_AND_ERROR_MSG: (state) => {
+        state.error_msg = '';
+        state.reservation_msg = '';
+    },
+    SPECIFIC_RESERVATION_STATUS: (state, response) => {
+        state.reservation_status.request_form_no = response[0].request_form_no,
+        state.reservation_status.slt_reserve_status = response[0].reserve_status
     }
 };
 
@@ -82,6 +95,12 @@ const actions = {
         commit('SPECIFIC_RESERVATION', response.data.data);
     },
 
+    async statusOfSpecificReservation({commit}, request_form_no) {
+        const response = await axios.get(`http://127.0.0.1:8000/api/reservation_status_of/${request_form_no}`);
+        console.log(response);
+        commit('SPECIFIC_RESERVATION_STATUS', response.data);
+    },
+
     async updateReservation({commit}, reservation) {
         axios.put(`http://127.0.0.1:8000/api/reservation/${reservation.request_form_no}`, reservation)
         .then(response => {
@@ -90,7 +109,14 @@ const actions = {
             commit('SET_ERROR_MSG', response);
         });
         
+    },
+
+    async removeSuccessAndErrorMsg({commit}) {
+        commit('CLEAR_SUCCESS_AND_ERROR_MSG', '')
+
     }
+
+
 
 
 

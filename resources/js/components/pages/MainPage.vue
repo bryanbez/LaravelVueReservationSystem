@@ -7,12 +7,7 @@
 
 <script>
 //import formReservation from '../layouts/forms/form_reservation';
-import reservationTable from '../layouts/tables/reservationsList';
-export default {
-  components: {
-    reservationTable,
-  }
-}
+
 </script>
 
 <style>

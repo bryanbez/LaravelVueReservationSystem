@@ -42,7 +42,7 @@
                                 <a class="nav-link" href="/"> Home </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/addreservation"> Add Reservation </a>
+                                <a class="nav-link" href="/reservations"> Reservations </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/eventcalendar"> Event Calendar </a>

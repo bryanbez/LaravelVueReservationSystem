@@ -70,4 +70,8 @@ class ReservationController extends Controller
     public function getEvents() {
         return $this->reservation->getAllEvents();
     }
+
+    public function getSpecificReserveStatus($request_form_no) {
+        return $this->reservation->reserveStatusOfSpecificReservation($request_form_no);
+    }
 }

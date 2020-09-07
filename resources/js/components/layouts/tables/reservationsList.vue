@@ -1,6 +1,27 @@
 <template>
   <div>
 
+    <button class="btn btn-primary mb-4" data-toggle="modal" data-target="#addReservationModal"> Add Reservation </button>
+
+    <div class="modal" id="addReservationModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Add Reservation</h5>
+            <button type="button" class="close" data-dismiss="modal" @click="refreshReservations" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <reservationForm></reservationForm>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" @click="refreshReservations" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
     <table class="table table-bordered">
         <tr>
             <th> Event Date </th>
@@ -15,7 +36,7 @@
             <td> {{ reservation.requested_group }} </td>
             <td> {{ reservation.reserve_status }} </td>
             <td> <button class="btn btn-primary" data-toggle="modal" data-target="#updateModal" @click="editReservation(reservation.request_form_no)"> Edit </button></td>
-            <td> <button class="btn btn-danger"> Archive </button></td>
+            <td> <button class="btn btn-success" data-toggle="modal" data-target="#statusModal"  @click="changeStatus(reservation.request_form_no)"> Change Status </button></td>
         </tr>
     </table>
 
@@ -45,19 +66,40 @@
     </div>
     </div>
 
+      <div class="modal" id="statusModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title"> Change Status </h5>
+            <button type="button" class="close" data-dismiss="modal" @click="refreshReservations" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <changeStatus></changeStatus>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"  @click="refreshReservations" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
     <!-- <reservationForm></reservationForm> -->
 
   </div>
 </template>
 
 <script>
-import  {mapGetters, mapActions} from 'vuex';
+import  {mapGetters, mapActions, mapState} from 'vuex';
 import reservationFormToUpdate from '../forms/form_reservation_to_update';
-//import reservationForm from '../forms/form_reservation';
+import reservationForm from '../forms/form_reservation';
+import changeStatus from '../forms/form_reserve_status';
 export default {
     components: {
         reservationFormToUpdate,
-        // reservationForm
+        reservationForm,
+        changeStatus
     },
     data() {
         return {
@@ -73,10 +115,11 @@ export default {
             reservationList: 'reservationModule/getAllReservation',
             getPagination: 'reservationModule/getPagination',
             getSpecificReservation: 'reservationModule/getSpecificReservation',
-        })
+        }),
+
     },
     methods: {
-        ...mapActions('reservationModule', ['allReservation', 'fetchSpecificReservation']),
+        ...mapActions('reservationModule', ['allReservation', 'fetchSpecificReservation', 'removeSuccessAndErrorMsg', 'statusOfSpecificReservation']),
         refreshList(page_url) {
     		this.allReservation(page_url);
         },
@@ -87,7 +130,13 @@ export default {
         },
         refreshReservations() {
              this.allReservation();
+             this.removeSuccessAndErrorMsg()
+           
+        },
+        changeStatus(request_form_no) {
+            this.statusOfSpecificReservation(request_form_no);
         }
+ 
     },
     filters: {
         eventTimeFilter(eventTime) {

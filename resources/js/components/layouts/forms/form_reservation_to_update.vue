@@ -90,6 +90,7 @@
 <script>
 import  {mapGetters, mapActions} from 'vuex';
 export default {
+
     data() {
         return {
             reservation: {
@@ -104,11 +105,12 @@ export default {
                 txt_reserve_purpose: ''
             },
             reservation_message: ''
+            
         }
     },
     created() {
         this.setInputValueInEditReservation();
-    //    this.reservation.txt_requested_group = this.getSpecificReservation.requested_group
+   
   
     },
     computed: {
@@ -122,7 +124,6 @@ export default {
     methods: {
         ...mapActions('reservationModule', ['fetchSpecificReservation']),
         setInputValueInEditReservation() {
-            console.log(this.getSpecificReservation);
             this.reservation = this.getSpecificReservation
         },
         updateReservation() {

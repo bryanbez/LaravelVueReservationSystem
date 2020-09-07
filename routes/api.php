@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resource('reservation', 'User\ReservationController');  
 Route::get('getalldate', 'User\ReservationController@dateAndScheduleList');
 Route::get('getallevents', 'User\ReservationController@getEvents');
+Route::get('reservation_status_of/{request_form_no}', 'User\ReservationController@getSpecificReserveStatus');
